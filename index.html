@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Math Quiz game</h1>
+        <div id="setUp">
+            <label for="questionNum">How many questions?</label>
+            <input type="number" name="" id="questionNum" min="1" max="20">
+            <br>
+            <button id="startBtn">Start</button>
+        </div>
+        <div class="gameContainer">
+            <p class="question"></p>
+            <div id="timer"></div>
+            <input type="number" id="questionAnswer">
+            <br>
+            <button id="submitBtn">Submit</button>
+            <p class="score">Score: <span id="scoreNum">0</span></p>
+            <p class="wrong">Wrong Answers: <span id="wrongNum">0</span></p>
+            <p class="message"></p>
+        </div>
+        <div id="gameOverDiv">
+            <h2 id="finalMessage">Game Over!</h2>
+            <p id="finalScore"></p>
+            <p id="refresh">Please <b>Refresh</b> to start the game again!</p>
+        </div>
+<!-- controls to see it -->
+        <audio id="backgroundMusic" loop >
+            <source src="./audio/quiz-countdown-194417.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
