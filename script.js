@@ -7,7 +7,7 @@ let scoreElement = document.querySelector("#scoreNum")
 let wrongElement = document.querySelector("#wrongNum")
 let messageElement = document.querySelector(".message")
 let gameElements = document.querySelector(".gameContainer")
-let timerElement=document.querySelector("#timer")
+let timerElement = document.querySelector("#timer")
 let backgroundMusic = document.querySelector("#backgroundMusic")
 let gameOverDiv = document.querySelector("#gameOverDiv");
 let finalScoreElement = document.querySelector("#finalScore");
@@ -27,11 +27,13 @@ questionNum.focus()
 let timeLeft;
 let countDown;
 let operators = ["+", "-", "*", "/"]
+// let operators = ["+", "-"]
+
 
 gameElements.style.display = "none"
 
 //funtion to start the game
-startBtn.addEventListener("click", ()=> {
+startBtn.addEventListener("click", () => {
 
     totalQuestions = +questionNum.value
     if (totalQuestions <= 0 || totalQuestions > 100) alert("enter a number between 1 and 100")
@@ -56,26 +58,26 @@ function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function startTimer(){
+function startTimer() {
     clearInterval(countDown)
-    timeLeft=10
-    timerElement.innerHTML=`time left: ${timeLeft}s`
-    countDown=setInterval(()=>{
+    timeLeft = 10
+    timerElement.innerHTML = `time left: ${timeLeft}s`
+    countDown = setInterval(() => {
         timeLeft--
         timerElement.innerHTML = `time left: ${timeLeft}s`
 
-        if(timeLeft<=0){
+        if (timeLeft == 0) {
             clearInterval(countDown)
-            messageElement.innerHTML="time is up!"
+            messageElement.textContent = "time is up!"
             setTimeout(() => messageElement.innerHTML = "", 500)
             wrongAnswers++
-            wrongElement.innerHTML = `${wrongAnswers}/5`;
+            wrongElement.textContent = `${wrongAnswers}/5`;
             setTimeout(() => {
                 generateQuestion();
             }, 500);
 
         }
-    },1000)
+    }, 1000)
 }
 
 function generateQuestion() {
@@ -86,8 +88,10 @@ function generateQuestion() {
         return
     }
 
-    number1 = getRandom(1, 20)
-    number2 = getRandom(1, 20)
+    // number1 = getRandom(1, 20)
+    // number2 = getRandom(1, 20)
+    number1 = getRandom(1, 10)
+    number2 = getRandom(1, 10)
     operator = operators[getRandom(0, operators.length - 1)]
     console.log(number1, number2, operator)
 
@@ -97,7 +101,13 @@ function generateQuestion() {
         number1 = number2 * getRandom(1, 10);
     }
 
+    // if(operator=="-" && number1<number2){
+    //     [number1, number2] = [number2, number1];
+    // }
+
     if (operator === "+") {
+        number1 = getRandom(0, 10);
+        number2 = getRandom(0, 10 - number1);
         correctAnswer = number1 + number2;
     } else if (operator === "-") {
         correctAnswer = number1 - number2;
@@ -118,19 +128,18 @@ function generateQuestion() {
 submitBtn.addEventListener("click", function () {
     if (gameOn == false) return
     let userAnswer = +userInput.value
-    if(userInput.value===""){
+    if (userInput.value === "") {
         alert("please enter a number")
-        return 
+        return
     }
     if (userAnswer === correctAnswer) {
         score++;
         scoreElement.innerHTML = score
         messageElement.innerHTML = "Correct!"
-        setTimeout(() => messageElement.innerHTML="",500)
+        setTimeout(() => messageElement.innerHTML = "", 500)
         messageElement.style.color = "green"
-
     }
-    
+
     else {
         wrongAnswers++
         wrongElement.innerHTML = `${wrongAnswers}/5`;
@@ -139,20 +148,46 @@ submitBtn.addEventListener("click", function () {
         messageElement.style.color = "red"
     }
     userInput.value = "";
-   setTimeout(()=>generateQuestion(),500)
+    setTimeout(generateQuestion, 500)
 })
 
 function endGame() {
     clearInterval(countDown);
     backgroundMusic.pause();
     gameElements.style.display = "none"
-   
     gameOverDiv.style.display = "block";
-
-   
     finalScoreElement.innerHTML = `Final Score: ${score}/${totalQuestions}`;
 
 }
+
+// document.addEventListener("keydown",(e)=>{
+//     if(e.key=="Enter"){
+//         if (gameOn == false) return
+//         let userAnswer = +userInput.value
+//         if (userInput.value === "") {
+//             alert("please enter a number")
+//             return
+//         }
+//         if (userAnswer === correctAnswer) {
+//             score++;
+//             scoreElement.innerHTML = score
+//             messageElement.innerHTML = "Correct!"
+//             setTimeout(() => messageElement.innerHTML = "", 500)
+//             messageElement.style.color = "green"
+
+//         }
+
+//         else {
+//             wrongAnswers++
+//             wrongElement.innerHTML = `${wrongAnswers}/5`;
+//             messageElement.innerHTML = "Wrong!"
+//             setTimeout(() => messageElement.innerHTML = "", 500)
+//             messageElement.style.color = "red"
+//         }
+//         userInput.value = "";
+//         setTimeout(() => generateQuestion(), 500)
+//     }
+// })
 
 // restartBtn.addEventListener("click", function(){
 //     gameOn = false;
